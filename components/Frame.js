@@ -1,0 +1,179 @@
+"use client"
+import { useEffect, useState } from 'react';
+import { generateImageFromAPI } from '../utils/api';
+import { Loading } from './Loading';
+
+
+export default function Frame() {
+  const [prompt, setPrompt] = useState('');
+  const [generatedImage, setGeneratedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState('sd-xl');
+  const [error, setError] = useState('');
+  const [tipIndex, setTipIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  const tips = [
+    "Did you know? You can try different prompts for unique results.",
+    "Tip: Experiment with different styles for creative outputs.",
+    "Fun Fact: AI-generated art can be used for various creative projects!",
+    "Did you know? You can combine multiple concepts in one prompt.",
+    "Pro Tip: Use descriptive language for more accurate results.",
+    "Creative Idea: Mix different genres for unexpected outcomes.",
+    "Did you know? Short and concise prompts often work best.",
+    "Fun Fact: AI art is transforming the world of digital creativity.",
+    "Pro Tip: Choose a specific model for high-quality results.",
+    "You can Download your generated image once ready."
+  ];
+
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        setFade(false);
+        setTimeout(() => {
+          setTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
+          setFade(true);
+        }, 500); // Change tip every 3 seconds with a 500ms fade-out and fade-in
+      }, 4500);
+
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
+
+  /* const modelMap = {
+    'sd-xl': 'stabilityai/stable-diffusion-xl-base-1.0',
+    'sd-v1.5': 'runwayml/stable-diffusion-v1-5',
+    'sd-v3.0': 'stabilityai/stable-diffusion-3-medium-diffusers'
+  }; */
+
+  const modelMap = {
+    'sd-xl': {
+      id: 'stabilityai/stable-diffusion-xl-base-1.0',
+      description: 'This model provides balanced performance suitable for most general use cases.',
+    },
+    'sd-v1.5': {
+      id: 'runwayml/stable-diffusion-v1-5',
+      description: 'Optimized for blending different artistic styles, offering creative flexibility.',
+    },
+    'sd-v3.0': {
+      id: 'stabilityai/stable-diffusion-3-medium-diffusers',
+      description: 'Most powerful enginge with advanced capabilities, Designed for high-quality creative outputs.',
+    },
+  };
+
+  const generateImage = async () => {
+    if (!prompt) {
+      setError('Please enter a prompt before generating.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const imageUrl = await generateImageFromAPI(prompt, modelMap[selectedModel].id);
+      setGeneratedImage(imageUrl);
+    } catch (error) {
+      console.error('Error generating image:', error);
+    }
+    setLoading(false);
+  };
+
+  const handlePromptChange = (e) => {
+    setPrompt(e.target.value);
+    setError(''); // Clear error when prompt changes
+  };
+
+  const handleDownload = () => {
+    if (generatedImage) {
+      // Create a temporary anchor element
+      const anchor = document.createElement('a');
+      anchor.href = generatedImage;
+      anchor.download = `NovaFrame_generated_image.${prompt}.jpg`; // Set download file name
+      anchor.click();
+    }
+  };
+
+  return (
+    <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-100 relative overflow-hidden h-full">
+      <h2 className="md:text-3xl text-2xl text-center font-bold mb-10">AI-Powered Image Generator</h2>
+      {/* <h6 className='text-center text-slate-400 mb-8'>Beyond Imagination: Discover New Visual Horizons</h6> */}
+      <div className="md:px-28 px-6 mx-auto flex flex-col md:flex-row">
+        {/* Left side: Inputs and Generate button */}
+        <div className="w-full md:w-1/2 pr-4">
+          <div className="mb-4">
+            <label htmlFor="prompt" className="block text-lg mb-2">Prompt</label>
+            <textarea
+              rows={3}
+              id="prompt"
+              value={prompt}
+              onChange={handlePromptChange}
+              placeholder="Enter your creative prompt here..."
+              className="w-full bg-gray-900 text-white border-2 border-gray-800 py-2 px-3 rounded-[0.150rem] focus:outline-none focus:border-blue-950"
+            />
+            {error && <p className="text-red-500 ml-2 mt-1">{error}</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="model" className="block text-lg mb-2">Select Engine</label>
+            <select
+              id="model"
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="w-full bg-gray-900 text-white border-2 border-gray-600 py-2 px-4 rounded-[0.150rem] focus:outline-none focus:border-blue-900"
+            >
+              <option value="sd-xl">NovaLite</option>
+              <option value="sd-v1.5" className="option-style">NovaBlend</option>
+              <option value="sd-v3.0">NovaElite</option>
+            </select>
+            <div className="text-gray-500 text-sm ml-2 mt-2">
+              {modelMap[selectedModel].description}
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className={`btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-sm ${loading ? 'loader' : ''}`}
+              onClick={generateImage}
+              disabled={loading}
+            >
+              {loading ? 'Generating...' : 'Generate Image'}
+            </button>
+          </div>
+          {generatedImage && (
+            <div className="flex justify-center mt-4">
+              <button
+                className="btn bg-purple-800 hover:bg-purple-900 text-white py-2 px-4 rounded-sm"
+                onClick={handleDownload}
+              >
+                Download Image
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Right side: Generated Image with animated frame */}
+        <div className="w-full md:w-1/2 md:pl-4 mt-8 md:mt-0">
+          <div className="frame h-full flex justify-center items-center">
+            {generatedImage ? (
+              <img
+                src={generatedImage}
+                alt="Generated Image"
+                className="rounded-md shadow-lg max-w-full max-h-full"
+              />
+            ) : loading ? (
+              <div className="loading-container overflow-hidden">
+                <div className="mt-3 p-5 bg-gradient-to-r from-blue-900 to-purple-950 rounded-sm overflow-hidden">
+                <p className={` text-gray-100  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
+                </div>
+                <p className="my-5 text-slate-400 animate-pulse">Generating your image...</p>
+                <Loading />
+
+              </div>
+            )
+              : (
+                <div className="rounded-md border-slate-700 shadow-lg w-full h-full items-center justify-center flex flex-col gap-5">
+                  <p className="text-gray-600 md:text-center">Your generated image will appear here</p>
+                </div>
+              )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

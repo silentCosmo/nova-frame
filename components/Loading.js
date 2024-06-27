@@ -1,0 +1,2 @@
+export const Loading = ()=> <div className="lds-grid"><div className="bg-red-500"></div>  <div className="bg-green-500"></div> <div className="bg-blue-500"></div>  <div className="bg-yellow-500"></div>  <div className="bg-purple-500"></div>  <div className="bg-indigo-500"></div>  <div className="bg-pink-500"></div>  <div className="bg-teal-500"></div>  <div className="bg-gray-500"></div></div>
+export const LoadingEclips = ()=> <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
