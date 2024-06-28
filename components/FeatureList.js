@@ -1,9 +1,11 @@
 // components/FeatureList.js
 const features = [
   'AI-Powered Image Generation',
+  'Powerful Visionary Engines',
   'User-Friendly Interface',
   'No Sign-in Required',
   'Free Image Downloads',
+  'Share Image Directly',
 ];
 
 export default function FeatureList() {

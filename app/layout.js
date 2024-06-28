@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      <GoogleAnalytics gaId="G-DT5D398TPKXYZ" />
+      <GoogleAnalytics gaId="G-DT5D398TPK" />
     </html>
   );
 }

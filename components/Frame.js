@@ -99,6 +99,29 @@ export default function Frame() {
     }
   };
 
+    const handleShare = async () => {
+    if (generatedImage) {
+      try {
+        const response = await fetch(generatedImage);
+        const blob = await response.blob();
+        const file = new File([blob], 'novaframe.netlify.app_generated_image.png', { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: 'NovaFrame Generated Image',
+            text: 'Check out this AI-generated image from NovaFrame!',
+            files: [file],
+          });
+        } else {
+          alert('Sharing is not supported on this browser.');
+        }
+      } catch (error) {
+        console.error('Error sharing image:', error);
+      }
+    }
+  };
+  
+
   return (
     <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
       <h2 className="md:text-3xl text-2xl text-center font-bold mb-10">AI-Powered Image Generator</h2>
@@ -136,7 +159,7 @@ export default function Frame() {
           </div>
           <div className="flex justify-center">
             <button
-              className={`btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-sm ${loading ? 'loader' : ''}`}
+              className={`btn bg-blue-700 hover:bg-blue-800 text-white text-base py-2 px-5 tracking-wide rounded-sm ${loading ? 'loader' : ''}`}
               onClick={generateImage}
               disabled={loading}
             >
@@ -144,12 +167,18 @@ export default function Frame() {
             </button>
           </div>
           {generatedImage && (
-            <div className="flex justify-center mt-4">
+            <div className="flex flex-col gap-4 w-max justify-center mx-auto mt-4">
               <button
                 className="btn bg-purple-800 hover:bg-purple-900 text-white py-2 px-4 rounded-sm"
                 onClick={handleDownload}
               >
                 Download Image
+              </button>
+              <button
+                className="btn bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded-sm"
+                onClick={handleShare}
+              >
+                Share Image
               </button>
             </div>
           )}
