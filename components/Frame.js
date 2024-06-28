@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { generateImageFromAPI } from '../utils/api';
 import { Loading } from './Loading';
+import { tips } from './Tips'
 
 
 export default function Frame() {
@@ -13,20 +14,8 @@ export default function Frame() {
   const [tipIndex, setTipIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
-  const tips = [
-    "Did you know? You can try different prompts for unique results.",
-    "Tip: Experiment with different styles for creative outputs.",
-    "Fun Fact: AI-generated art can be used for various creative projects!",
-    "Did you know? You can combine multiple concepts in one prompt.",
-    "Pro Tip: Use descriptive language for more accurate results.",
-    "Creative Idea: Mix different genres for unexpected outcomes.",
-    "Did you know? Short and concise prompts often work best.",
-    "Fun Fact: AI art is transforming the world of digital creativity.",
-    "Pro Tip: Choose a specific model for high-quality results.",
-    "You can Download your generated image once ready."
-  ];
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (loading) {
       const interval = setInterval(() => {
         setFade(false);
@@ -34,11 +23,11 @@ export default function Frame() {
           setTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
           setFade(true);
         }, 500); // Change tip every 3 seconds with a 500ms fade-out and fade-in
-      }, 4500);
+      }, 5500);
 
       return () => clearInterval(interval);
     }
-  }, [loading]);
+  }, [loading]); */
 
   /* const modelMap = {
     'sd-xl': 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -46,10 +35,28 @@ export default function Frame() {
     'sd-v3.0': 'stabilityai/stable-diffusion-3-medium-diffusers'
   }; */
 
+  useEffect(() => {
+    if (loading) {
+      const getRandomIndex = () => {
+        return Math.floor(Math.random() * tips.length);
+      };
+
+      const interval = setInterval(() => {
+        setFade(false);
+        setTimeout(() => {
+          setTipIndex(getRandomIndex());
+          setFade(true);
+        }, 500); // Change tip every 5 seconds with a 500ms fade-out and fade-in
+      }, 5500);
+
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
+
   const modelMap = {
     'sd-xl': {
       id: 'stabilityai/stable-diffusion-xl-base-1.0',
-      description: 'This model provides balanced performance suitable for most general use cases.',
+      description: 'This engine provides balanced performance suitable for most general use cases.',
     },
     'sd-v1.5': {
       id: 'runwayml/stable-diffusion-v1-5',
@@ -63,10 +70,11 @@ export default function Frame() {
 
   const generateImage = async () => {
     if (!prompt) {
-      setError('Please enter a prompt before generating.');
+      setError("Oops! The prompt cannot be empty.");
       return;
     }
     setLoading(true);
+    setGeneratedImage(null);
     try {
       const imageUrl = await generateImageFromAPI(prompt, modelMap[selectedModel].id);
       setGeneratedImage(imageUrl);
@@ -92,7 +100,7 @@ export default function Frame() {
   };
 
   return (
-    <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-100 relative overflow-hidden h-full">
+    <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
       <h2 className="md:text-3xl text-2xl text-center font-bold mb-10">AI-Powered Image Generator</h2>
       {/* <h6 className='text-center text-slate-400 mb-8'>Beyond Imagination: Discover New Visual Horizons</h6> */}
       <div className="md:px-28 px-6 mx-auto flex flex-col md:flex-row">
@@ -105,10 +113,10 @@ export default function Frame() {
               id="prompt"
               value={prompt}
               onChange={handlePromptChange}
-              placeholder="Enter your creative prompt here..."
+              placeholder="To generate an image, enter a description of what you'd like to create. Let your imagination run wild!"
               className="w-full bg-gray-900 text-white border-2 border-gray-800 py-2 px-3 rounded-[0.150rem] focus:outline-none focus:border-blue-950"
             />
-            {error && <p className="text-red-500 ml-2 mt-1">{error}</p>}
+            {error && <p className="text-red-400 opacity-70 ml-2 mt-1">{error}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="model" className="block text-lg mb-2">Select Engine</label>
@@ -149,19 +157,19 @@ export default function Frame() {
 
         {/* Right side: Generated Image with animated frame */}
         <div className="w-full md:w-1/2 md:pl-4 mt-8 md:mt-0">
-          <div className="frame h-full flex justify-center items-center">
+          <div className="frame h-full flex justify-center">
             {generatedImage ? (
               <img
                 src={generatedImage}
                 alt="Generated Image"
-                className="rounded-md shadow-lg max-w-full max-h-full"
+                className="rounded-md shadow-lg max-w-full max-h-[36rem]"
               />
             ) : loading ? (
               <div className="loading-container overflow-hidden">
-                <div className="mt-3 p-5 bg-gradient-to-r from-blue-900 to-purple-950 rounded-sm overflow-hidden">
-                <p className={` text-gray-100  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
+                <div className="md:mt-9  rounded-sm rounded-b-lg overflow-hidden">
+                  <p className={` text-slate-50 tracking-wider font-light bg-gradient-to-r from-blue-950 to-purple-950 md:p-6 p-4 rounded-lg  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
                 </div>
-                <p className="my-5 text-slate-400 animate-pulse">Generating your image...</p>
+                <p className="my-7 text-slate-400 animate-pulse">Generating your image...</p>
                 <Loading />
 
               </div>

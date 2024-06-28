@@ -10,19 +10,19 @@ export default function Header() {
           <div>
             <Link href="/">
               {/* <span className="text-white text-xl font-bold">NovaFrame</span> */}
-              <Image src='/nova-logo.png' alt='NovaFrame' width={25} height={5} /> 
+              <Image src='/nova-logo.png' alt='NovaFrame' width={30} height={0} className='h-8' /> 
             </Link>
           </div>
           <div>
             <ul className="flex space-x-4">
               <li>
                 <Link href="/">
-                  <span className="text-white hover:text-gray-300">Home</span>
+                  <span className="text-gray-400 hover:text-gray-300">Home</span>
                 </Link>
               </li>
               <li>
                 <Link href="/about">
-                  <span className="text-white hover:text-gray-300">About</span>
+                  <span className="text-gray-400 hover:text-gray-300">About</span>
                 </Link>
               </li>
               {/* Add more navigation links as needed */}

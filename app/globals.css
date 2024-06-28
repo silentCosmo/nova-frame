@@ -23,7 +23,8 @@ body {
 
 footer {
   background: rgb(0, 0, 0);
-  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 15, 32, 1) 100%);
+  /* background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 15, 32, 1) 100%); */
+  background: linear-gradient(360deg, rgba(0, 15, 32, 0.700) 0%, rgb(0, 12, 26) 100%);
 }
 
 @layer utilities {
@@ -121,7 +122,7 @@ form button {
   /* background: currentColor; */
   animation: lds-grid 1.2s linear infinite;
 
-  background: linear-gradient(-90deg, rgb(60, 7, 110) 0%, rgb(30, 58, 200) 100%);
+  background: linear-gradient(-90deg, rgb(96, 6, 180) 0%, rgb(35, 72, 253) 100%);
 /*   background: linear-gradient(-90deg, rgb(101, 0, 190) 0%, rgb(0, 0, 199) 100%);
  */}
 
@@ -226,12 +227,21 @@ form button {
   align-items: center;
 }
 
-.slide-in {
+/* .slide-in {
   transform: translateY(0);
   transition: transform 0.1s ease-in-out;
 }
 
 .slide-out {
-  transform: translateY(170%);
+  transform: translateY(250%);
   transition: transform 0.1s ease-in-out;
+} */
+.slide-in {
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+}
+
+.slide-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
 }
