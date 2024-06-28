@@ -2,8 +2,8 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import FeatureList from '@/components/FeatureList';
-import HeroSection from '@/components/HeroSection';
+import FeatureList from '@/src/components/FeatureList';
+import HeroSection from '@/src/components/HeroSection';
 
 export default function About() {
     return (
