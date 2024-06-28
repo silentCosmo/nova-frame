@@ -99,7 +99,7 @@ export default function Frame() {
     }
   };
 
-    const handleShare = async () => {
+  const handleShare = async () => {
     if (generatedImage) {
       try {
         const response = await fetch(generatedImage);
@@ -120,7 +120,7 @@ export default function Frame() {
       }
     }
   };
-  
+
 
   return (
     <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
@@ -128,9 +128,9 @@ export default function Frame() {
       {/* <h6 className='text-center text-slate-400 mb-8'>Beyond Imagination: Discover New Visual Horizons</h6> */}
       <div className="md:px-28 px-6 mx-auto flex flex-col md:flex-row">
         {/* Left side: Inputs and Generate button */}
-        <div className="w-full md:w-1/2 pr-4">
+        <div className="w-full md:w-1/2 md:pr-4">
           <div className="mb-4">
-            <label htmlFor="prompt" className="block text-lg mb-2">Prompt</label>
+            <label htmlFor="prompt" className="block mb-2">Prompt</label>
             <textarea
               rows={3}
               id="prompt"
@@ -142,7 +142,7 @@ export default function Frame() {
             {error && <p className="text-red-400 opacity-70 ml-2 mt-1">{error}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="model" className="block text-lg mb-2">Select Engine</label>
+            <label htmlFor="model" className="block mb-2">Select Engine</label>
             <select
               id="model"
               value={selectedModel}
@@ -159,7 +159,7 @@ export default function Frame() {
           </div>
           <div className="flex justify-center">
             <button
-              className={`btn bg-blue-700 hover:bg-blue-800 text-white text-base py-2 px-5 tracking-wide rounded-sm ${loading ? 'loader' : ''}`}
+              className={`btn bg-blue-700 hover:bg-blue-800 text-white text-base py-2 px-5 mt-3 tracking-wide rounded-sm ${loading ? 'loader' : ''}`}
               onClick={generateImage}
               disabled={loading}
             >
@@ -196,7 +196,7 @@ export default function Frame() {
             ) : loading ? (
               <div className="loading-container overflow-hidden">
                 <div className="md:mt-9  rounded-sm rounded-b-lg overflow-hidden">
-                  <p className={` text-slate-50 tracking-wider font-light bg-gradient-to-r from-blue-950 to-purple-950 md:p-6 p-4 rounded-lg  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
+                  <p className={` text-slate-50 tracking-wider font-light bg-gradient-to-r from-blue-900 to-purple-900 drop-shadow-2xl shadow-black md:p-6 p-4 rounded-lg  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
                 </div>
                 <p className="my-7 text-slate-400 animate-pulse">Generating your image...</p>
                 <Loading />
@@ -204,8 +204,8 @@ export default function Frame() {
               </div>
             )
               : (
-                <div className="rounded-md border-slate-700 shadow-lg w-full h-full items-center justify-center flex flex-col gap-5">
-                  <p className="text-gray-600 md:text-center">Your generated image will appear here</p>
+                <div className="rounded-md border-slate-700 shadow-lg w-full h-full items-center justify-center flex flex-col">
+                  <p className="text-gray-600 md:text-center md:mt-0 mt-24">Your generated image will appear here</p>
                 </div>
               )}
           </div>

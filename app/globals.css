@@ -123,7 +123,7 @@ form button {
   /* background: currentColor; */
   animation: lds-grid 1.2s linear infinite;
 
-  background: linear-gradient(-90deg, rgb(96, 6, 180) 0%, rgb(35, 72, 253) 100%);
+  background: linear-gradient(80deg, hsl(271, 100%, 59%) 0%, rgb(40, 133, 255) 100%);
 /*   background: linear-gradient(-90deg, rgb(101, 0, 190) 0%, rgb(0, 0, 199) 100%);
  */}
 
