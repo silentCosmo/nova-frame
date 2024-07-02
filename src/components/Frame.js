@@ -14,27 +14,6 @@ export default function Frame() {
   const [tipIndex, setTipIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
-
-  /* useEffect(() => {
-    if (loading) {
-      const interval = setInterval(() => {
-        setFade(false);
-        setTimeout(() => {
-          setTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
-          setFade(true);
-        }, 500); // Change tip every 3 seconds with a 500ms fade-out and fade-in
-      }, 5500);
-
-      return () => clearInterval(interval);
-    }
-  }, [loading]); */
-
-  /* const modelMap = {
-    'sd-xl': 'stabilityai/stable-diffusion-xl-base-1.0',
-    'sd-v1.5': 'runwayml/stable-diffusion-v1-5',
-    'sd-v3.0': 'stabilityai/stable-diffusion-3-medium-diffusers'
-  }; */
-
   useEffect(() => {
     if (loading) {
       const getRandomIndex = () => {

@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "NovaFrame",
   description: "NovaFrame: AI-Powered Image Generation Platform: NovaFrame is an advanced web application built by silentCosmo, designed to leverage artificial intelligence for generating visually stunning and customizable images. Whether you're an artist, designer, or enthusiast, NovaFrame provides a powerful toolkit to create captivating visuals effortlessly.",
-  verification:{google:"RR0GT_WFjIOTSvDJ2dmhbPVKkhioCYB4e0YPXFa5W9c"}
+  verification:{google:"RR0GT_WFjIOTSvDJ2dmhbPVKkhioCYB4e0YPXFa5W9c"},
 };
 
 export default function RootLayout({ children }) {

@@ -1,4 +1,3 @@
-// components/HeroSection.js
 export default function HeroSection() {
     return (
       <section className="hero bg-gradient-to-r from-blue-900 to-purple-950 text-white py-20 md:py-28 relative overflow-hidden">
