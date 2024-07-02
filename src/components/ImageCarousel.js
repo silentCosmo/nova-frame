@@ -8,17 +8,18 @@ import 'swiper/css';
 import { Autoplay, EffectCoverflow, Navigation } from 'swiper/modules';
 
 const carouselImages = [
-  '/carousel/10.jpg',
   '/carousel/1.jpg',
   '/carousel/2.jpg',
   '/carousel/3.jpg',
   '/carousel/4.jpg',
   '/carousel/5.jpg',
   '/carousel/6.jpg',
+  '/carousel/0.jpg',
   '/carousel/7.jpg',
+  '/carousel/11.jpg',
   '/carousel/8.jpg',
   '/carousel/9.jpg',
-  '/carousel/0.jpg',
+  '/carousel/10.jpg',
 ];
 
 
@@ -26,7 +27,7 @@ const carouselImages = [
 export default function Carousel() {
 
   return (
-    <section className="coverflow-carousel-container mx-auto md:h-[350px] md:w-[50%] max-w-4x pt-10">
+    <section className="coverflow-carousel-container mx-auto md:h-[350px] md:w-[50%] max-w-4x pt-14">
       <Swiper
         modules={[Autoplay, EffectCoverflow, Navigation]}
         effect="coverflow"
@@ -41,7 +42,7 @@ export default function Carousel() {
           slideShadows: true,
         }}
         autoplay={{
-          delay: 3000,
+          delay: 2000,
           disableOnInteraction: false,
         }}
         loop={true}
