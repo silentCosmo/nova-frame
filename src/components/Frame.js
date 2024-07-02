@@ -102,7 +102,7 @@ export default function Frame() {
 
 
   return (
-    <section className="image-generator py-16 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
+    <section className="image-generator py-14 md:px-20 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
       <h2 className="md:text-3xl text-2xl text-center font-bold mb-10">AI-Powered Image Generator</h2>
       {/* <h6 className='text-center text-slate-400 mb-8'>Beyond Imagination: Discover New Visual Horizons</h6> */}
       <div className="md:px-28 px-6 mx-auto flex flex-col md:flex-row">
@@ -111,7 +111,7 @@ export default function Frame() {
           <div className="mb-4">
             <label htmlFor="prompt" className="block mb-2">Prompt</label>
             <textarea
-              rows={3}
+              rows={4}
               id="prompt"
               value={prompt}
               onChange={handlePromptChange}

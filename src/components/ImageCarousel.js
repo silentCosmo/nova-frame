@@ -15,11 +15,11 @@ const carouselImages = [
   '/carousel/5.jpg',
   '/carousel/6.jpg',
   '/carousel/0.jpg',
+  '/carousel/10.jpg',
   '/carousel/7.jpg',
   '/carousel/11.jpg',
   '/carousel/8.jpg',
   '/carousel/9.jpg',
-  '/carousel/10.jpg',
 ];
 
 
@@ -27,15 +27,15 @@ const carouselImages = [
 export default function Carousel() {
 
   return (
-    <section className="coverflow-carousel-container mx-auto md:h-[350px] md:w-[50%] max-w-4x pt-14">
+    <section className="coverflow-carousel-container mx-auto md:w-6/12 max-w-0 pt-14">
       <Swiper
         modules={[Autoplay, EffectCoverflow, Navigation]}
         effect="coverflow"
-        spaceBetween={-30}
+        spaceBetween={15}
         slidesPerView={3}  // Show three slides at a time
         centeredSlides={true}  // Center the active slide
         coverflowEffect={{
-          rotate: 30,  // Adjust rotation for a better 3D effect
+          rotate: -360,  // Adjust rotation for a better 3D effect
           stretch: 0,
           depth: 90,  // Increase depth to show more of the adjacent slides
           modifier: 1,
