@@ -35,7 +35,11 @@ export default function Frame() {
   const modelMap = {
     'sd-xl': {
       id: 'stabilityai/stable-diffusion-xl-base-1.0',
-      description: 'This engine provides balanced performance suitable for most general use cases.',
+      description: 'Balanced performance suitable for basic use cases.',
+    },
+    'sd-v1.4': {
+      id: 'CompVis/stable-diffusion-v1-4',
+      description: 'This engine provides balanced performance capable for most general use cases.',
     },
     'sd-v1.5': {
       id: 'runwayml/stable-diffusion-v1-5',
@@ -43,7 +47,43 @@ export default function Frame() {
     },
     'sd-v3.0': {
       id: 'stabilityai/stable-diffusion-3-medium-diffusers',
-      description: 'Most powerful enginge with advanced capabilities, Designed for high-quality creative outputs.',
+      description: 'powerful enginge with advanced capabilities, Designed for high-quality creative outputs.',
+    },
+    'sdxl-me': {
+      id: 'mann-e/Mann-E_Dreams',
+      description: 'This engine used thousands of generated visionaries in order to make it possible to make high-quality images.',
+    },
+    'mlt': {
+      id: 'alvdansen/m3lt',
+      description: 'A new engine for exploring surreal themes and soft tones.',
+    },
+    'rae': {
+      id: 'Raelina/Rae-Diffusion-XL-V2',
+      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
+    },
+    'ani': {
+      id: 'cagliostrolab/animagine-xl-3.1',
+      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
+    },
+    'rae': {
+      id: 'Raelina/Rae-Diffusion-XL-V2',
+      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
+    },
+    'hand': {
+      id: 'alvdansen/littletinies',
+      description: 'A classic engine for hand drawn cartoon style.',
+    },
+    'toon': {
+      id: 'alvdansen/midsommarcartoon',
+      description: 'A retro-style cartoon print model that blends a bit of an anime influence with classic northern european cartoons.',
+    },
+    'real': {
+      id: 'SG161222/RealVisXL_V4.0',
+      description: 'The engine is aimed at photorealism. Can produce realistic images at decent quality.',
+    },
+    'eclipse': {
+      id: 'fluently/Fluently-XL-Final',
+      description: 'Art and realism in one, The engine was obtained through training on expensive graphics accelerators.',
     },
   };
 
@@ -57,6 +97,7 @@ export default function Frame() {
     try {
       const imageUrl = await generateImageFromAPI(prompt, modelMap[selectedModel].id);
       setGeneratedImage(imageUrl);
+      console.log(modelMap[selectedModel]);
     } catch (error) {
       console.error('Error generating image:', error);
     }
@@ -128,9 +169,19 @@ export default function Frame() {
               onChange={(e) => setSelectedModel(e.target.value)}
               className="w-full bg-gray-900 text-white border-2 border-gray-600 py-2 px-4 rounded-[0.150rem] focus:outline-none focus:border-blue-900"
             >
-              <option value="sd-xl">NovaLite</option>
-              <option value="sd-v1.5" className="option-style">NovaBlend</option>
-              <option value="sd-v3.0">NovaElite</option>
+              <option value="sd-xl">Nova Lite</option>
+              <option value="sd-v1.5">Nova Blend</option>
+              <option value="sd-v1.4">Nova LitePlus</option>
+              <option value="mlt">Nova Surreal</option>
+              <option value="ani">Nova Animagic</option>
+              <option value="rae">Nova Animagine</option>
+              <option value="hand">Nova HandDrawn</option>
+              <option value="toon">Nova RetroToon</option>
+              <option value="eclipse">Nova Eclipse</option>
+              <option value="sdxl-me">Nova Fusion</option>
+              <option value="real">Nova Forge</option>
+              <option value="sd-v3.0">Nova Elite</option>
+
             </select>
             <div className="text-gray-500 text-sm ml-2 mt-2">
               {modelMap[selectedModel].description}

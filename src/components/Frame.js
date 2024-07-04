@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { generateImageFromAPI } from '../utils/api';
 import { Loading } from './Loading';
 import { tips } from './Tips'
+import { randomPrompts } from '../utils/PromptSample';
 
 
 export default function Frame() {
@@ -13,6 +14,8 @@ export default function Frame() {
   const [error, setError] = useState('');
   const [tipIndex, setTipIndex] = useState(0);
   const [fade, setFade] = useState(true);
+  const [exampleClicked, setExampleClicked] = useState(false);
+
 
   useEffect(() => {
     if (loading) {
@@ -26,66 +29,74 @@ export default function Frame() {
           setTipIndex(getRandomIndex());
           setFade(true);
         }, 500); // Change tip every 5 seconds with a 500ms fade-out and fade-in
-      }, 5500);
+      }, 7500);
 
       return () => clearInterval(interval);
     }
   }, [loading]);
 
+
   const modelMap = {
     'sd-xl': {
-      id: 'stabilityai/stable-diffusion-xl-base-1.0',
+      ids: ['stabilityai/stable-diffusion-xl-base-1.0', 'mann-e/Mann-E_Turbo'],
       description: 'Balanced performance suitable for basic use cases.',
     },
     'sd-v1.4': {
-      id: 'CompVis/stable-diffusion-v1-4',
+      ids: ['CompVis/stable-diffusion-v1-4', '/mann-e/mann-e', 'mann-e/mann-e_rev-3', 'SG161222/Paragon_V1.0'],
       description: 'This engine provides balanced performance capable for most general use cases.',
     },
     'sd-v1.5': {
-      id: 'runwayml/stable-diffusion-v1-5',
+      ids: ['runwayml/stable-diffusion-v1-5', 'SG161222/Realistic_Vision_V6.0_B1_noVAE', 'SG161222/Realistic_Vision_V5.1_noVAE'],
       description: 'Optimized for blending different artistic styles, offering creative flexibility.',
     },
     'sd-v3.0': {
-      id: 'stabilityai/stable-diffusion-3-medium-diffusers',
-      description: 'powerful enginge with advanced capabilities, Designed for high-quality creative outputs.',
+      ids: ['stabilityai/stable-diffusion-3-medium-diffusers'],
+      description: 'Powerful engine with advanced capabilities, designed for high-quality creative outputs. [beta]',
     },
     'sdxl-me': {
-      id: 'mann-e/Mann-E_Dreams',
-      description: 'This engine used thousands of generated visionaries in order to make it possible to make high-quality images.',
+      ids: ['mann-e/Mann-E_Dreams'],
+      description: 'This engine used thousands of generated visionaries in order to make it possible to make high-quality images. [beta]',
     },
     'mlt': {
-      id: 'alvdansen/m3lt',
-      description: 'A new engine for exploring surreal themes and soft tones.',
+      ids: ['alvdansen/m3lt'],
+      description: 'A new engine for exploring surreal themes and soft tones. [beta]',
     },
     'rae': {
-      id: 'Raelina/Rae-Diffusion-XL-V2',
-      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
+      ids: ['Raelina/Rae-Diffusion-XL-V2', 'yodayo-ai/kivotos-xl-2.0'],
+      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity. [beta]',
     },
     'ani': {
-      id: 'cagliostrolab/animagine-xl-3.1',
-      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
-    },
-    'rae': {
-      id: 'Raelina/Rae-Diffusion-XL-V2',
-      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity.',
+      ids: ['cagliostrolab/animagine-xl-3.1'],
+      description: 'Meticulously optimized to excel in depicting anime characters, pushing the boundaries of creativity. [beta]',
     },
     'hand': {
-      id: 'alvdansen/littletinies',
-      description: 'A classic engine for hand drawn cartoon style.',
+      ids: ['alvdansen/littletinies'],
+      description: 'A classic engine for hand drawn cartoon style. [beta]',
     },
     'toon': {
-      id: 'alvdansen/midsommarcartoon',
-      description: 'A retro-style cartoon print model that blends a bit of an anime influence with classic northern european cartoons.',
+      ids: ['alvdansen/midsommarcartoon'],
+      description: 'A retro-style cartoon print model that blends a bit of an anime influence with classic northern european cartoons. [beta]',
+    },
+    'fxl': {
+      ids: ['fluently/Fluently-XL-v4', 'fluently/Fluently-XL-v3', 'fluently/Fluently-XL-v3-Lightning', 'fluently/Fluently-XL-v1'],
+      description: 'Correct anatomy, Art and realism in one, Controling contrast, Great nature, Great faces without AfterDetailer [beta]',
     },
     'real': {
-      id: 'SG161222/RealVisXL_V4.0',
-      description: 'The engine is aimed at photorealism. Can produce realistic images at decent quality.',
+      ids: ['SG161222/RealVisXL_V4.0', 'SG161222/RealVisXL_V4.0_Lightning', 'RunDiffusion/Juggernaut-X-Hyper', 'RunDiffusion/Juggernaut-XL-Lightning'],
+      description: `The engine is aimed at photorealism. Can produce realistic images at decent quality. [beta]`,
     },
     'eclipse': {
-      id: 'fluently/Fluently-XL-Final',
-      description: 'Art and realism in one, The engine was obtained through training on expensive graphics accelerators.',
+      ids: ['fluently/Fluently-XL-Final'],
+      description: 'Art and realism in one, The engine was obtained through training on expensive graphics accelerators. [beta]',
+    },
+    'nsfw': {
+      ids: ['UnfilteredAI/NSFW-gen-v2.1', 'UnfilteredAI/NSFW-gen-v2', 'UnfilteredAI/NSFW-GEN-ANIME-v2', 'UnfilteredAI/NSFW-GEN-ANIME'],
+      description: 'Push the boundaries to explore new dimensions of mature artistic expression and dive into a world where imagination is the only limit! [beta]',
     },
   };
+
+
+  const alvdansenModels = ['mlt', 'hand', 'toon'];
 
   const generateImage = async () => {
     if (!prompt) {
@@ -94,18 +105,37 @@ export default function Frame() {
     }
     setLoading(true);
     setGeneratedImage(null);
-    try {
-      const imageUrl = await generateImageFromAPI(prompt, modelMap[selectedModel].id);
-      setGeneratedImage(imageUrl);
-    } catch (error) {
-      console.error('Error generating image:', error);
+    setError('');
+
+    const modelIds = modelMap[selectedModel].ids;
+
+    for (let i = 0; i < modelIds.length; i++) {
+      try {
+        let uniquePrompt = prompt;
+        if (alvdansenModels.includes(selectedModel)) {
+          uniquePrompt = `${prompt} - ${new Date().getTime()}`;
+        }
+        const imageUrl = await generateImageFromAPI(uniquePrompt, modelIds[i]);
+        setGeneratedImage(imageUrl);
+        setLoading(false);
+        return;
+      } catch (error) {
+        console.error(`Error generating image with model ${modelIds[i]}:`, error);
+      }
     }
+
+    setError(`Oh no! The selected engine is taking a nap. Try another engine while it recharges!`);
+
     setLoading(false);
   };
+ 
 
   const handlePromptChange = (e) => {
     setPrompt(e.target.value);
     setError(''); // Clear error when prompt changes
+    if (e.target.value.length > 0) {
+      setExampleClicked(false);
+    }
   };
 
   const handleDownload = () => {
@@ -142,31 +172,46 @@ export default function Frame() {
 
 
   return (
-    <section className="image-generator py-14 md:px-20 bg-gray-900 bg-opacity-5 text-slate-300 relative overflow-hidden h-full">
+    <section className="image-generator py-14 md:px-20 bg-gray-900 bg-opacity-5 text-blue-100 relative overflow-hidden h-full">
       <h2 className="md:text-3xl text-2xl text-center font-bold mb-10">AI-Powered Image Generator</h2>
       {/* <h6 className='text-center text-slate-400 mb-8'>Beyond Imagination: Discover New Visual Horizons</h6> */}
       <div className="md:px-28 px-6 mx-auto flex flex-col md:flex-row">
         {/* Left side: Inputs and Generate button */}
-        <div className="w-full md:w-1/2 md:pr-4">
+        <div className="w-full md:w-1/2 md:pr-4 text-slate-400">
           <div className="mb-4">
-            <label htmlFor="prompt" className="block mb-2">Prompt</label>
+            <div className='flex row justify-between'>
+              <label htmlFor="prompt" className="block mb-2">Prompt</label>
+              {(prompt === '' || exampleClicked) && (
+                <button
+                  className={`text-xs flex items-center active:scale-90 group ${exampleClicked ? '' : 'animate-pulse'}`}
+                  onClick={() => {
+                    setPrompt(randomPrompts[Math.floor(Math.random() * randomPrompts.length)]);
+                    setExampleClicked(true);
+                  }}
+                >
+                  <span className=' text-violet-300 tracking-wider'>Generate Idea!</span>
+                  <span role="img" aria-label="light bulb" className={`mr-1 opacity-95 group-active:scale-150 ${exampleClicked ? 'animate-pulse' : 'hidden'}`}>🔮</span>
+                </button>
+              )}
+            </div>
+
             <textarea
-              rows={4}
+              rows={exampleClicked?5:4}
               id="prompt"
               value={prompt}
               onChange={handlePromptChange}
               placeholder="To generate an image, enter a description of what you'd like to create. Let your imagination run wild!"
-              className="w-full bg-gray-900 text-white border-2 border-gray-800 py-2 px-3 rounded-[0.150rem] focus:outline-none focus:border-blue-950"
+              className={`w-full bg-gray-900 ${exampleClicked ? 'text-violet-300 font-mono font-semibold text-base' : 'text-blue-200'}  border-2 border-gray-800 py-2 px-3 rounded-[0.150rem] focus:outline-none focus:border-blue-950`}
             />
-            {error && <p className="text-red-400 opacity-70 ml-2 mt-1">{error}</p>}
+            {error && <p className="text-rose-400 opacity-70 ml-2 mt-1">{error}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="model" className="block mb-2">Select Engine</label>
+            <label htmlFor="model" className="block mb-2">Engine</label>
             <select
               id="model"
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full bg-gray-900 text-white border-2 border-gray-600 py-2 px-4 rounded-[0.150rem] focus:outline-none focus:border-blue-900"
+              className="w-full bg-gray-900 text-blue-200 border-2 border-gray-600 py-2 px-4 rounded-[0.150rem] focus:outline-none focus:border-blue-900"
             >
               <option value="sd-xl">Nova Lite</option>
               <option value="sd-v1.5">Nova Blend</option>
@@ -176,6 +221,8 @@ export default function Frame() {
               <option value="rae">Nova Animagine</option>
               <option value="hand">Nova HandDrawn</option>
               <option value="toon">Nova RetroToon</option>
+              <option value="fxl">Nova Lementis</option>
+              <option value="nsfw">Nova Midnight</option>
               <option value="eclipse">Nova Eclipse</option>
               <option value="sdxl-me">Nova Fusion</option>
               <option value="real">Nova Forge</option>
@@ -227,7 +274,7 @@ export default function Frame() {
                 <div className="md:mt-9  rounded-sm rounded-b-lg overflow-hidden">
                   <p className={` text-slate-50 tracking-wider font-light bg-gradient-to-r from-blue-900 to-purple-900 drop-shadow-2xl shadow-black md:p-6 p-4 rounded-lg  ${fade ? 'slide-in' : 'slide-out'}`}>{tips[tipIndex]}</p>
                 </div>
-                <p className="my-7 text-slate-400 animate-pulse">Generating your image...</p>
+                <p className="my-7 text-slate-400 animate-pulse">Hang tight, your image is on the way!</p>
                 <Loading />
 
               </div>
