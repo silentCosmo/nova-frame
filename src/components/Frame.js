@@ -42,11 +42,11 @@ export default function Frame() {
       description: 'Balanced performance suitable for basic use cases.',
     },
     'sd-v1.4': {
-      ids: ['CompVis/stable-diffusion-v1-4', '/mann-e/mann-e', 'mann-e/mann-e_rev-3', 'SG161222/Paragon_V1.0'],
+      ids: ['CompVis/stable-diffusion-v1-4', '/mann-e/mann-e', 'fluently/Fluently-v2.5', 'fluently/Fluently-v2', 'fluently/Fluently-epic', 'fluently/Fluently-v1', 'ehristoforu/dreamdrop', 'mann-e/mann-e_rev-3', 'SG161222/Paragon_V1.0'],
       description: 'This engine provides balanced performance capable for most general use cases.',
     },
     'sd-v1.5': {
-      ids: ['runwayml/stable-diffusion-v1-5', 'SG161222/Realistic_Vision_V6.0_B1_noVAE', 'SG161222/Realistic_Vision_V5.1_noVAE'],
+      ids: ['runwayml/stable-diffusion-v1-5', 'fluently/Fluently-v4', 'fluently/Fluently-v3', 'fluently/Fluently-v4-LCM', 'SG161222/Realistic_Vision_V6.0_B1_noVAE', 'SG161222/Realistic_Vision_V5.1_noVAE'],
       description: 'Optimized for blending different artistic styles, offering creative flexibility.',
     },
     'sd-v3.0': {
@@ -78,7 +78,7 @@ export default function Frame() {
       description: 'A retro-style cartoon print model that blends a bit of an anime influence with classic northern european cartoons. [beta]',
     },
     'fxl': {
-      ids: ['fluently/Fluently-XL-v4', 'fluently/Fluently-XL-v3', 'fluently/Fluently-XL-v3-Lightning', 'fluently/Fluently-XL-v1'],
+      ids: ['RunDiffusion/Juggernaut-X-v10','RunDiffusion/Juggernaut-XL-v8','fluently/Fluently-XL-v4', 'fluently/Fluently-XL-v3', 'fluently/Fluently-v3.5', 'fluently/Fluently-XL-v3-Lightning', 'fluently/Fluently-XL-v1', 'recoilme/colorfulxl'],
       description: 'Correct anatomy, Art and realism in one, Controling contrast, Great nature, Great faces without AfterDetailer [beta]',
     },
     'real': {
@@ -120,7 +120,7 @@ export default function Frame() {
         setLoading(false);
         return;
       } catch (error) {
-        console.error(`Error generating image with model ${modelIds[i]}:`, error);
+        //console.error(`Error generating image with model ${modelIds[i]}:`, error);
       }
     }
 
