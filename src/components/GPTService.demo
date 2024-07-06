@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useRef, useEffect } from 'react';
 
 const ChatInterface = () => {
@@ -36,6 +36,8 @@ const ChatInterface = () => {
     }, [typingMessage, typingIndex]);
 
     const handleSend = () => {
+        if (!inputValue.trim()) return;
+
         const newMessage = { type: 'user', content: inputValue };
         setMessages([...messages, newMessage]);
 
@@ -49,9 +51,9 @@ const ChatInterface = () => {
     };
 
     return (
-        <div className="min-h-screen pt-16 text-slate-400 tracking-[0.02em] flex justify-center w-full">
-            <main className="flex flex-col justify-between h-full mb-28 md:w-4/6 bg-green-60">
-                <div className="flex-1 overflow-y-auto md:px-10 px-2">
+        <div className="min-h-screen pt-16 text-slate-400 tracking-[0.02em] flex justify-center w-full bg-gray-900">
+            <main className="flex flex-col justify-between h-full w-full md:w-4/6">
+                <div className="flex-1 overflow-y-auto md:px-10 px-2 pb-20">
                     {messages.map((message, index) => (
                         <div
                             key={index}
@@ -80,7 +82,7 @@ const ChatInterface = () => {
                             </div>
                         </div>
                     )}
-                    <div ref={messagesEndRef} className='mt-2' />
+                    <div ref={messagesEndRef} className="mt-2" />
                 </div>
 
                 <div className="bg-gray-900 fixed w-full md:w-4/6 bottom-0 p-4">
@@ -91,7 +93,7 @@ const ChatInterface = () => {
                             placeholder="Enter your prompt or question here."
                             className="bg-slate-800 text-white p-2 rounded flex-1"
                         />
-                        <button onClick={handleSend} className="bg-gradient-to-tr from-fuchsia-950 to-sky-800  text-slate-400 p-2 ml-2 rounded active:scale-95 active:bg-gradient-to-br">
+                        <button onClick={handleSend} className="bg-gradient-to-tr from-fuchsia-950 to-sky-800 text-slate-400 p-2 ml-2 rounded active:scale-95 active:bg-gradient-to-br">
                             Send
                         </button>
                     </div>
