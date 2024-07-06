@@ -20,6 +20,11 @@ export default function Header() {
                   <span className="text-gray-400 hover:text-gray-300">Home</span>
                 </Link>
               </li>
+              {/* <li>
+                <Link href="/chat">
+                  <span className="text-gray-400 hover:text-gray-300">Chat</span>
+                </Link>
+              </li> */}
               <li>
                 <Link href="/about">
                   <span className="text-gray-400 hover:text-gray-300">About</span>

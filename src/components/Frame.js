@@ -46,7 +46,7 @@ export default function Frame() {
       description: 'This engine provides balanced performance capable for most general use cases.',
     },
     'sd-v1.5': {
-      ids: ['runwayml/stable-diffusion-v1-5', 'fluently/Fluently-v4', 'fluently/Fluently-v3', 'fluently/Fluently-v4-LCM', 'SG161222/Realistic_Vision_V6.0_B1_noVAE', 'SG161222/Realistic_Vision_V5.1_noVAE'],
+      ids: ['runwayml/stable-diffusion-v1-5', 'fluently/Fluently-v4', 'fluently/Fluently-v3', 'fluently/Fluently-v4-LCM', 'ehristoforu/Visionix-alpha', 'SG161222/Realistic_Vision_V6.0_B1_noVAE', 'SG161222/Realistic_Vision_V5.1_noVAE'],
       description: 'Optimized for blending different artistic styles, offering creative flexibility.',
     },
     'sd-v3.0': {

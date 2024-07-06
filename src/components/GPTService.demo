@@ -1,0 +1,104 @@
+"use client"
+import React, { useState, useRef, useEffect } from 'react';
+
+const ChatInterface = () => {
+    const [messages, setMessages] = useState([
+        { type: 'user', content: "What's the best eye cream?" },
+        { type: 'ai', content: "To help you find the best eye cream, I'd need a bit more information.\n\nWhat's your main concern?", options: ["Dark circles", "Wrinkles", "Dryness", "Puffiness"] },
+        { type: 'ai', content: "For dealing with dryness around the eyes, it's essential to find an eye cream that is hydrating and nourishing. Here are some key features to look for:\n\n1. Hydrating Ingredients: Look for ingredients like Hyaluronic Acid, Glycerin, and Ceramides. These ingredients help to retain moisture and keep the skin hydrated.\n\n2. Nourishing Oils: Ingredients like Jojoba Oil, Squalane, and Shea Butter can be very beneficial. They provide deep moisture and help to strengthen the skin's barrier." },
+    ]);
+    const [inputValue, setInputValue] = useState('');
+    const [selectedModel, setSelectedModel] = useState('GPT-3');
+    const messagesEndRef = useRef(null);
+    const [typingMessage, setTypingMessage] = useState('');
+    const [typingIndex, setTypingIndex] = useState(0);
+
+    // Scroll to bottom of messages when new message is added
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, typingMessage, typingIndex]);
+
+    useEffect(() => {
+        if (typingMessage && typingIndex < typingMessage.length) {
+            const timeout = setTimeout(() => {
+                setTypingIndex(typingIndex + 1);
+            }, 40);
+            return () => clearTimeout(timeout);
+        } else if (typingMessage && typingIndex >= typingMessage.length) {
+            setMessages((prevMessages) => [...prevMessages, { type: 'ai', content: typingMessage }]);
+            setTypingMessage('');
+            setTypingIndex(0);
+        }
+    }, [typingMessage, typingIndex]);
+
+    const handleSend = () => {
+        const newMessage = { type: 'user', content: inputValue };
+        setMessages([...messages, newMessage]);
+
+        // Simulate AI response with typewriter effect
+        setTimeout(() => {
+            setTypingMessage("This is an AI-generated response.\nWhy do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).");
+            setTypingIndex(0);
+        }, 500);
+
+        setInputValue('');
+    };
+
+    return (
+        <div className="min-h-screen pt-16 text-slate-400 tracking-[0.02em] flex justify-center w-full">
+            <main className="flex flex-col justify-between h-full mb-28 md:w-4/6 bg-green-60">
+                <div className="flex-1 overflow-y-auto md:px-10 px-2">
+                    {messages.map((message, index) => (
+                        <div
+                            key={index}
+                            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                            <div
+                                className={`p-3 rounded-xl mb-2 ${message.type === 'user' ? 'rounded-tr-none w-fit bg-gradient-to-bl from-slate-900 via-slate-900 to-sky-950' : 'rounded-tl-none bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950'} ${message.type === 'user' ? 'ml-5' : 'mr-5'}`}
+                            >
+                                {message.content.split("\n").map((line, i) => (
+                                    <p key={i}>{line}</p>
+                                ))}
+                                {message.options && (
+                                    <div className="mt-2">
+                                        {message.options.map((option, i) => (
+                                            <button key={i} className="bg-gray-600 p-1 m-1 rounded">{option}</button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                    {typingMessage && (
+                        <div className="flex justify-start">
+                            <div className="p-3 rounded-xl mb-2 rounded-tl-none bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 mr-5">
+                                <p>{typingMessage.substring(0, typingIndex)}</p>
+                            </div>
+                        </div>
+                    )}
+                    <div ref={messagesEndRef} className='mt-2' />
+                </div>
+
+                <div className="bg-gray-900 fixed w-full md:w-4/6 bottom-0 p-4">
+                    <div className="flex items-center">
+                        <textarea
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder="Enter your prompt or question here."
+                            className="bg-slate-800 text-white p-2 rounded flex-1"
+                        />
+                        <button onClick={handleSend} className="bg-gradient-to-tr from-fuchsia-950 to-sky-800  text-slate-400 p-2 ml-2 rounded active:scale-95 active:bg-gradient-to-br">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+};
+
+export default ChatInterface;
