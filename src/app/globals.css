@@ -18,7 +18,7 @@
 
 body {
   background: rgb(0, 0, 0);
-  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 15, 32, 1) 100%);
+  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgb(0, 17, 37) 100%);
   user-select: none;
 }
 
@@ -84,14 +84,16 @@ form button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgb(0, 0, 0);
+  /* background: rgb(0, 0, 0); */
+  background: inherit;
   /* background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 15, 32, 1) 100%); */
 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: radial-gradient(circle, rgb(0, 21, 44) 0%, rgba(0, 15, 32, 1) 100%);
+  /* background: radial-gradient(circle, rgb(0, 21, 44) 0%, rgba(0, 15, 32, 1) 100%); */
+  background: rgba(76, 0, 130, 0.719);
   /* background: linear-gradient(360deg, rgba(0, 0, 0, 1) 0%, rgb(0, 26, 56) 100%);  */
 }
 
@@ -248,4 +250,8 @@ form button {
 }
 
 
-/* Carousel */
+/* GPT */
+#messagesContainer{
+  user-select: text;
+  scrollbar-width: 50px !important;
+}
