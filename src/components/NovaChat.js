@@ -7,7 +7,7 @@ import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const inference = new HfInference(process.env.NEXT_PUBLIC_HF_API_TOKEN);
 
 const models = [
-    { label: 'Nova', value: 'HuggingFaceH4/zephyr-7b-alpha' },
+    { label: 'Cosmo', value: 'HuggingFaceH4/zephyr-7b-alpha' },
     { label: 'miPhi', value: 'microsoft/Phi-3-mini-4k-instruct' },
     { label: 'Mist', value: 'mistralai/Mistral-7B-Instruct-v0.3' }
 ];
@@ -19,11 +19,11 @@ const welcomeMessage = [
 
 const ChatInterface = () => {
     const [messages, setMessages] = useState(() => {
-        const storedMessages = localStorage.getItem('chatMessages');
+        const storedMessages = typeof window !== 'undefined' && localStorage.getItem('chatMessages');
         return storedMessages ? JSON.parse(storedMessages) : welcomeMessage;
     });
     const [selectedModel, setSelectedModel] = useState(() => {
-        const storedModel = localStorage.getItem('chatModel');
+        const storedModel = typeof window !== 'undefined' && localStorage.getItem('chatModel');
         return storedModel ? JSON.parse(storedModel) : models[0].value;
     });
     const [inputValue, setInputValue] = useState('');
