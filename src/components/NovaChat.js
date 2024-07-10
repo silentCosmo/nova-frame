@@ -13,7 +13,7 @@ const models = [
 ];
 
 const welcomeMessage = [
-    { type: 'ai', content: "This project is under development 👩🏻‍💻, so you might encounter some bugs 🐞. Feel free to choose any model from above and start testing! 😊" },
+    { type: 'ai', content: "This project is under development 👩🏻‍💻, so you might encounter some bugs 🐞. Feel free to choose any model from above and start interactions with AI! 😊" },
     { type: 'ai', content: "~silentCosmo" },
 ];
 
@@ -53,13 +53,13 @@ const ChatInterface = () => {
         };
 
         if (messagesContainerRef.current) {
-            console.log('Adding event listener'); // Ensure event listener is added
+            //console.log('Adding event listener'); // Ensure event listener is added
             messagesContainerRef.current.addEventListener('scroll', handleScroll);
         }
 
         return () => {
             if (messagesContainerRef.current) {
-                console.log('Removing event listener'); // Ensure event listener is removed
+                //console.log('Removing event listener'); // Ensure event listener is removed
                 messagesContainerRef.current.removeEventListener('scroll', handleScroll);
             }
         };

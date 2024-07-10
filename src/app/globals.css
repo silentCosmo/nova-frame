@@ -255,3 +255,38 @@ form button {
   user-select: text;
   scrollbar-width: 50px !important;
 }
+
+/* About */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-fade-in.animate-delay-200 {
+  animation: fade-in 1s ease-out 0.2s;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
