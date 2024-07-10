@@ -5,7 +5,7 @@ export const metadata = {
   openGraph: {
     title: 'About NovaFrame - Innovating AI Solutions',
     description: 'Transforming ideas into extraordinary visuals with innovative AI solutions. Explore our offerings, including AI-powered image generation, dynamic chat interfaces, and more.',
-    url: 'https://novaframe.netlify.app',
+    url: 'https://novaframe.netlify.app/about',
     type: 'website',
     images: [
       {
