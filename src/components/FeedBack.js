@@ -31,10 +31,9 @@ export default function FeedbackButton() {
                             <>
                                 <h2 className="text-xl font-bold mb-4 text-center text-white">Let’s Connect</h2>
                                 <form
-                                    method="POST"
-                                    data-netlify="true"
-                                    name="feedback"
-                                    onSubmit={() => setIsSuccess(true)}
+                                    netlify
+                                    name="feedback"/* 
+                                    onSubmit={() => setIsSuccess(true)} */
                                     className="space-y-4 flex flex-col"
                                 >
                                     <input type="hidden" name="form-name" value="feedback" />

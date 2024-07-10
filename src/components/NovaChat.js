@@ -40,10 +40,10 @@ const ChatInterface = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            console.log('Scrolling...'); // Check if function is called
+            //console.log('Scrolling...'); // Check if function is called
             if (messagesContainerRef.current) {
                 const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
-                console.log('scrollTop:', scrollTop, 'scrollHeight:', scrollHeight, 'clientHeight:', clientHeight); // Debugging log
+                //console.log('scrollTop:', scrollTop, 'scrollHeight:', scrollHeight, 'clientHeight:', clientHeight); // Debugging log
                 if (scrollHeight - scrollTop > clientHeight + 100) {
                     setShowScrollButton(true);
                 } else {
@@ -77,6 +77,13 @@ const ChatInterface = () => {
     const handleSend = async () => {
         if (!inputValue.trim()) return;
 
+        let promptContent = inputValue;
+
+        if (inputValue.startsWith('@')) {
+            // Remove the '@' and set the prompt for image generation
+            promptContent = `Give a prompt for creating an image of: ${inputValue.slice(1)}`;
+        }
+
         const newMessage = { type: 'user', content: inputValue };
         setMessages(prevMessages => [...prevMessages, newMessage]);
         setInputValue('');
@@ -93,7 +100,7 @@ const ChatInterface = () => {
             console.log('nv'+useNovaSend);
             const responseStream = inference.chatCompletionStream({
                 model: selectedModel,
-                messages: useNovaSend? messagesToSend : [{ role: 'user', content: inputValue }],
+                messages: useNovaSend? messagesToSend : [{ role: 'user', content: promptContent }],
                 max_tokens: 1000,
             });
 
