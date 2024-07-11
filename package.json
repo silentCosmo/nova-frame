@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.3.3",
     "@huggingface/inference": "^2.7.0",
     "@next/third-parties": "^14.2.4",
     "dotenv": "^16.4.5",
