@@ -16,7 +16,7 @@ const models = [
 ];
 
 const welcomeMessage = [
-    { type: 'ai', content: "This project is under development 👩🏻‍💻, so you might encounter some bugs 🐞. Feel free to choose any model from above and start interactions with AI! 😊" },
+    { type: 'ai', content: "This project is under development 👩🏻‍💻, so you might encounter some bugs 🐞. Feel free to choose any model from the menu and start interactions with AI! 😊" },
     { type: 'ai', content: "~silentCosmo" },
 ];
 

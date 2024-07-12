@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from './Icon';
 
 const Menu = ({
     isOpen, onClose, selectedModel, setSelectedModel,
     useNovaSend, handleNovaSend, handleDeleteChat, models
 }) => {
+    const [feedback, setFeedback] = useState('');
+    const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
+
+    const handleFeedbackSubmit = () => {
+        if (feedback.trim()) {
+            // Handle feedback submission (e.g., send to an API endpoint)
+            console.log("Feedback submitted:", feedback);
+            setFeedback('');
+            setIsFeedbackFormOpen(false);
+        }
+    };
+
     return (
         <>
             {isOpen && (
@@ -13,7 +25,7 @@ const Menu = ({
                     onClick={onClose}
                 ></div>
             )}
-            <div className={`fixed top-0 right-0 w-72 bg-slate-900 bg-opacity-65 backdrop-blur-xl text-slate-300 h-full shadow-lg z-50 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}>
+            <div className={`fixed top-0 right-0 w-72 bg-slate-900 bg-opacity-65 backdrop-blur-md text-slate-300 h-full shadow-lg z-50 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}>
                 <div className="p-4 flex flex-col h-full justify-between">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-lg font-semibold">Settings</h2>
@@ -36,11 +48,14 @@ const Menu = ({
                                     </div>
                                 ))}
                             </div>
+                            <p className="text-xs text-slate-400 mt-2">
+                                Choose the model that best suits your needs. Models vary in complexity and capabilities.
+                            </p>
                         </div>
                         <hr className='border-slate-800 opacity-50 border-t my-6'/>
                         <div className='mb-6'>
                             <div className="flex items-center justify-between my-2">
-                                <label className=" mr-2">EchoPrompt</label>
+                                <label className="mr-2">EchoPrompt</label>
                                 <button
                                     onClick={handleNovaSend}
                                     className={`w-12 h-6 rounded-full ${useNovaSend ? 'bg-indigo-800' : 'bg-gray-600'} relative focus:outline-none`}
@@ -78,6 +93,32 @@ const Menu = ({
                             </button>
                         </div>
                         <hr className='border-slate-800 opacity-50 border-t my-6' />
+                        <div className="mb-4">
+                            <label className="block mb-2">Feedback / Report Bug</label>
+                            {isFeedbackFormOpen ? (
+                                <div className="space-y-2">
+                                    <textarea
+                                        value={feedback}
+                                        onChange={(e) => setFeedback(e.target.value)}
+                                        className="w-full p-2 bg-slate-800 text-white rounded-md"
+                                        placeholder="Enter your feedback or report a bug"
+                                    />
+                                    <button 
+                                        onClick={handleFeedbackSubmit}
+                                        className="w-full py-2 px-4 bg-indigo-700 hover:bg-indigo-600 text-white rounded-md"
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => setIsFeedbackFormOpen(true)}
+                                    className="block w-full text-center py-2 px-4 bg-indigo-900 hover:bg-indigo-800 rounded-md"
+                                >
+                                    Provide Feedback
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div className="text-center text-gray-500 text-sm mt-4">
                         &copy; 2024 NovaChat
