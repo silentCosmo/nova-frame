@@ -1,20 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Icon from './Icon';
+import { sendForm } from '@emailjs/browser';
 
 const Menu = ({
     isOpen, onClose, selectedModel, setSelectedModel,
     useNovaSend, handleNovaSend, handleDeleteChat, models
 }) => {
-    const [feedback, setFeedback] = useState('');
     const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const formRef = useRef(null);
 
-    const handleFeedbackSubmit = () => {
-        if (feedback.trim()) {
-            // Handle feedback submission (e.g., send to an API endpoint)
-            console.log("Feedback submitted:", feedback);
-            setFeedback('');
-            setIsFeedbackFormOpen(false);
-        }
+    const getMetadata = () => {
+        const browserInfo = `${navigator.userAgent} on ${navigator.platform}`;
+        const deviceType = /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+        const screenResolution = `${window.screen.width}x${window.screen.height}`;
+        const referrerUrl = document.referrer ? document.referrer : 'Direct Link';
+        const userLanguage = navigator.language || navigator.userLanguage;
+        const currentUrl = window.location.href;
+
+        // Get the current date and time
+        const now = new Date();
+        const date = now.toLocaleDateString();
+        const time = now.toLocaleTimeString();
+
+        return {
+            browserInfo,
+            deviceType,
+            screenResolution,
+            referrerUrl,
+            userLanguage,
+            currentUrl,
+            date,
+            time
+        };
+    };
+
+    const formSubmit = (e) => {
+        e.preventDefault();
+        if (e.target.message.value.length==0) return;
+        setIsSubmitting(true);
+
+        const metadata = getMetadata();
+        const formData = new FormData(formRef.current);
+
+        // Append metadata to FormData
+        Object.entries(metadata).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        sendForm('service_bedzlcp', 'template_817wj3s', formRef.current, 'LPR3sEr5mvcMMLSG2')  // Replace with your EmailJS Service ID, Template ID, and User ID
+            .then((result) => {
+                console.log('SUCCESS!', result.status, result.text);
+                setIsSuccess(true);
+                setIsSubmitting(false);
+                e.target.reset();
+                setIsFeedbackFormOpen(false);
+                
+            }, (error) => {
+                console.log('FAILED...', error);
+                setIsSubmitting(false);
+            });
     };
 
     return (
@@ -25,7 +71,7 @@ const Menu = ({
                     onClick={onClose}
                 ></div>
             )}
-            <div className={`fixed top-0 right-0 w-72 bg-slate-900 bg-opacity-65 backdrop-blur-md text-slate-300 h-full shadow-lg z-50 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}>
+            <div className={`fixed top-0 right-0 w-72 overflow-auto bg-slate-900 bg-opacity-65 backdrop-blur-md text-slate-300 h-full shadow-lg z-50 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}>
                 <div className="p-4 flex flex-col h-full justify-between">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-lg font-semibold">Settings</h2>
@@ -96,31 +142,49 @@ const Menu = ({
                         <div className="mb-4">
                             <label className="block mb-2">Feedback / Report Bug</label>
                             {isFeedbackFormOpen ? (
-                                <div className="space-y-2">
+                                <form
+                                    onSubmit={formSubmit}
+                                    ref={formRef}
+                                    className="space-y-2 flex flex-col"
+                                >
+                                    <input
+                                        name="name"
+                                        className="w-full p-2 bg-slate-800 text-white rounded-md text-base focus:outline-none"
+                                        placeholder=" Your Name"
+                                    />
                                     <textarea
-                                        value={feedback}
-                                        onChange={(e) => setFeedback(e.target.value)}
-                                        className="w-full p-2 bg-slate-800 text-white rounded-md"
+                                        name="message"
+                                        className="w-full p-2 bg-slate-800 text-white rounded-md focus:outline-none"
                                         placeholder="Enter your feedback or report a bug"
                                     />
+                                    <input type="hidden" name="browserInfo" value={getMetadata().browserInfo} />
+                                    <input type="hidden" name="deviceType" value={getMetadata().deviceType} />
+                                    <input type="hidden" name="screenResolution" value={getMetadata().screenResolution} />
+                                    <input type="hidden" name="referrerUrl" value={getMetadata().referrerUrl} />
+                                    <input type="hidden" name="userLanguage" value={getMetadata().userLanguage} />
+                                    <input type="hidden" name="currentUrl" value={getMetadata().currentUrl} />
+                                    <input type="hidden" name="date" value={getMetadata().date} />
+                                    <input type="hidden" name="time" value={getMetadata().time} />
                                     <button 
-                                        onClick={handleFeedbackSubmit}
-                                        className="w-full py-2 px-4 bg-indigo-700 hover:bg-indigo-600 text-white rounded-md"
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className={`text-base w-full py-2 px-4 ${isSubmitting ? 'bg-gray-600' : 'bg-indigo-900 active:bg-indigo-700 hover:bg-indigo-800'} text-white rounded-md`}
                                     >
-                                        Submit
+                                        {isSubmitting ? <><span className="spinner"/>Submitting...</> : 'Submit'}
                                     </button>
-                                </div>
+                                </form>
                             ) : (
                                 <button
-                                    onClick={() => setIsFeedbackFormOpen(true)}
-                                    className="block w-full text-center py-2 px-4 bg-indigo-900 hover:bg-indigo-800 rounded-md"
+                                onClick={() => setIsFeedbackFormOpen(true)}
+                                className="block w-full text-center py-2 px-4 bg-indigo-900 hover:bg-indigo-800 rounded-md"
                                 >
                                     Provide Feedback
                                 </button>
                             )}
                         </div>
+                            {isSuccess && <p className="text-teal-500">Feedback submitted successfully!</p>}
                     </div>
-                    <div className="text-center text-gray-500 text-sm mt-4">
+                    <div className="text-center text-gray-500 text-sm mt-4 pb-4">
                         &copy; 2024 NovaChat
                     </div>
                 </div>

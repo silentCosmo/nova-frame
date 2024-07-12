@@ -220,7 +220,7 @@ const ChatInterface = () => {
             <header className="bg-slate-900 bg-opacity-50 backdrop-blur-md justify-between flex fixed top-0 left-0 right-0 md:px-10 py-1 px-2">
                 <button className='bg-gradient-to-tr from-fuchsia-500 to-sky-500 bg-clip-text text-transparent opacity-80 font-bold text-2xl ml-3 my-2'>NovaChat</button>
                 <button
-                    className="b-gradient-to-tr from-fuchsia-950 to-sky-800 text-indigo-400 my-2 rounded active:scale-75 shadow-md"
+                    className="b-gradient-to-tr from-fuchsia-950 to-sky-800 text-indigo-400 my-2 mr-2 rounded active:scale-75 shadow-md"
                     onClick={() => setIsMenuOpen(true)}
                 >
                     <Icon name="menu" className='size-7' />
